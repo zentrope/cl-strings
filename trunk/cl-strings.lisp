@@ -271,7 +271,7 @@ of STRING."
   (string-trim charbag string))
 
 (defun string-value-of (object &key lowercase)
-  "Returns the string representation of OBJECT, optioanally
+  "Returns the string representation of OBJECT, optionally
 forcing it to LOWERCASE."
   (let ((value (format nil "~a" object)))
     (if lowercase
