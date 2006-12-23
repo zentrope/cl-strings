@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+<title>cl-strings</title>
+<style>
+pre { border: 1px dotted silver; padding: 1em; background-color: #f6f6f6;}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+  <div id="content">
+
+    <h1>cl-strings</h1>
+
+    <h2>abstract</h2>
+
+    <h2>contents</h2>
+
+    <div id="contents">
+    <dl>
+      <dt>string functions</dt>
+      <dd>
+	<ul>
+	  <li><a href="#string-char-at">string-char-at</a></li>
+	  <li><a href="#string-compare-to">string-compare-to</a></li>
+	</ul>
+      </dd>
+    </dl>
+
+    <h3>String Tokenizer</h3>
+    <ul>
+      <li><a href="#string-make-tokenizer">string-make-tokenizer</a></li>
+      <li><a href="#string-tokenizer-next">string-tokenizer-next</a></li>
+      <li><a href="#string-tokenizer-count">string-tokenizer-count</a></li>
+      <li><a href="#string-tokenizer-peak">string-tokenizer-peak</a></li>
+      <li><a href="#string-tokenizer-more-p">string-tokenizer-more-p</a></li>
+      <li><a href="#string-tokenizer-reset">string-tokenizer-reset</a></li>
+    </ul>
+    
+    </div>
+
+    <a name="string-tokenizer"></a>
+    <h2>String Tokenizer</h2>
+
+    <a name="string-make-tokenizer"></a>
+    
+    <p>[Function] <br/> <b>string-make-tokenizer</b> <i>string</i>
+    &amp;key <i>delimiter</i> =&gt; <i>instance</i></p>
+
+    <blockquote>
+    Returns a <code>string-tokenizer</code> object for use with <code>string-tokenizer-*</code> methods.
+    </blockquote>
+
+    <blockquote>
+    Example:<pre>
+CL> (defparameter *tokens* (string-make-tokenizer "one two three four"))
+*TOKENS*
+
+CL> (string-tokenizer-count *tokens*)
+4
+
+
+</pre>
+    </blockquote>
+    
+    <blockquote>
+    Example:
+    <pre>
+CL> (defun list-tokens (string &key (delimiter *whitespace-regex*))
+      (let ((tokens (string-make-tokenizer string :delimiter delimiter)))
+        (loop
+           while (string-tokenizer-more-p tokens)
+             do (format t "~a~%" (string-tokenizer-next tokens)))))
+
+CL&gt; (list-tokens "one two three four five")
+one
+two
+three
+four
+five
+
+CL> (list-tokens "one,two,three four,five")
+one,two,three
+four,five
+
+CL> (list-tokens "one,two,three four,five" :delimiter ",")
+one
+two
+three four
+five
+
+CL></pre>
+    </blockquote>
+
+    <!-- -->
+    
+    <a name="string-tokenizer-count"></a>
+
+    <p>[Method] <br/> <b>string-tokenizer-count</b> <i>instance</i> => <i>count</i></p>
+
+    <blockquote>
+    Returns the number of tokens in the <code>string-tokenizer</code> instance.
+    </blockquote>
+
+    <!-- -->
+
+    <p>[Method] <br/> <b>string-tokenizer-next</b> <i>instance</i> =&gt; token</p>
+
+    <blockquote>
+    Returns the next token, advancing the token pointer, or <code>nil</code> if there are no more tokens.
+    </blockquote>
+
+    <!-- -->
+
+    <p>[Method] <br/> <b>string-tokenizer-more-p</b> <i>instance</i> =&gt; token</p>
+
+    <blockquote>
+    Returns <code>t</code> if there are more tokens available, <code>nil</code> if not.
+    </blockquote>
+
+    <a name="string-tokenizer-peak"></a>
+
+    <p>[Method] <br/> <b>string-tokenizer-peak</b> <i>instance</i> =&gt; <i>token</i></p>
+
+    <blockquote>
+    Returns the next token without advancing the token pointer.
+    </blockquote>
+    
+    
+  </div>
+ </div>
+
+ 
+<hr>
+<address></address>
+<!-- hhmts start --> Last modified: Fri Dec 22 17:37:40 PST 2006 <!-- hhmts end -->
+</body> </html>
