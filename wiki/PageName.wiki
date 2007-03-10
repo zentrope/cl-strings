@@ -1,78 +1,71 @@
-#summary One-sentence summary of this page.
+#summary Documentation for cl-strings, version 1.0.0
 
-= Introduction =
+= cl-strings =
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
-
-cl-strings
 A java-api mimicking string library for Common Lisp.
-Abstract
+
+== Abstract ==
+
 There's not really a need for a string convenience library for Common Lisp, since so much of what you might want to do with strings is available with the usual list or sequence functions already provided. What's not available with those is neatly filled by Edi Weitz's CL-PPCRE.
+
 Still, just for fun, here's a library mimicking the java String class, with a little StringTokenizer thrown in for good measure.
-Contents
-Project Home
-Dependencies
-Special Variables
-	•	*whitespace-regex*
-	•	*whitespace-bag*
-String Functions
-	•	string-bytes
-	•	string-char-at
-	•	string-compare-to
-	•	string-concat
-	•	string-contains
-	•	string-content-equals
-	•	string-copy
-	•	string-ends-with
-	•	string-equals
-	•	string-format
-	•	string-index-of
-	•	string-last-index-of
-	•	string-length
-	•	string-matches
-	•	string-region-matches
-	•	string-replace-all
-	•	string-replace-char
-	•	string-replace-first
-	•	string-replace-substring
-	•	string-split
-	•	string-starts-with
-	•	string-subsequence
-	•	string-substring
-	•	string-to-char-list
-	•	string-to-lower
-	•	string-to-upper
-	•	string-to-symbol
-	•	string-strip
-	•	string-value-of
-String Tokenizer
-	•	string-make-tokenizer
-	•	string-tokenizer-next
-	•	string-tokenizer-count
-	•	string-tokenizer-peek
-	•	string-tokenizer-more-p
-	•	string-tokenizer-reset
-Project Home
-The code and supporting information, issue tracking, wiki, etc, for cl-strings resides at:
-	•	http://code.google.com/p/cl-strings
-The latest asdf installable version can be found at:
-	•	http://code.google.com/p/cl-strings/downloads/list
-Dependencies
+
+= Symbols =
+
+* *whitespace-regex*
+* *whitespace-bag*
+
+* string-bytes
+* string-char-at
+* string-compare-to
+* string-concat
+* string-contains
+* string-content-equals
+* string-copy
+* string-ends-with
+* string-equals
+* string-format
+* string-index-of
+* string-last-index-of
+* string-length
+* string-matches
+* string-region-matches
+* string-replace-all
+* string-replace-char
+* string-replace-first
+* string-replace-substring
+* string-split
+* string-starts-with
+* string-subsequence
+* string-substring
+* string-to-char-list
+* string-to-lower
+* string-to-upper
+* string-to-symbol
+* string-strip
+* string-value-of
+
+* string-make-tokenizer
+* string-tokenizer-next
+* string-tokenizer-count
+* string-tokenizer-peek
+* string-tokenizer-more-p
+* string-tokenizer-reset
+
+== Dependencies ==
+
 The cl-strings package depends on cl-ppcre.
-Special Variables
+
+== Special Variables ==
+
 [Special variable]  *whitespace-regex*
 Used to determine what constitutes whitespace in the string-split and string-make-tokenizer functions. Defaults to \\S.
+
 [Special variable]  *whitespace-bag*
 Contains the white space characters used in trim operations. Defaults to #\Newline #\Space #\Return #\Tab.
-String Functions
+
+== String Functions ==
+
 [Function]  string-bytes string ⇒ list
 Returns a list of bytes (unsigned-byte 8), each byte representing a character in the string.
 [Function]  string-char-at string index ⇒ character
@@ -137,15 +130,20 @@ Returns the string representation of object, optionally forcing it to lowercase.
 String Tokenizer
 [Function]  string-make-tokenizer string &key delimiter => instance
 Returns a string-tokenizer object for use with string-tokenizer-* methods.
+
 Example:
+
+{{{
 CL> (defparameter *tokens* (string-make-tokenizer "one two three four"))
 *TOKENS*
 
 CL> (string-tokenizer-count *tokens*)
 4
-
+}}}
 
 Example:
+
+{{{
 CL> (defun list-tokens (string &key (delimiter *whitespace-regex*))
       (let ((tokens (string-make-tokenizer string :delimiter delimiter)))
         (loop
@@ -170,6 +168,8 @@ three four
 five
 
 CL>
+}}}
+
 [Method]  string-tokenizer-count instance => count
 Returns the number of tokens in the string-tokenizer instance.
 [Method]  string-tokenizer-next instance => token
@@ -181,3 +181,5 @@ Returns the next token without advancing the token pointer.
 
 
 Last modified: Sat Mar 10 00:02:04 PST 2007
+
+
