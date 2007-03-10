@@ -3,7 +3,10 @@
   <head>
 <title>cl-strings</title>
 <style>
-pre { border: 1px dotted silver; padding: 1em; background-color: #f6f6f6;}
+pre { border: 1px dotted silver; padding: 1em; background-color:
+#f6f6f6;}
+
+blockquote { margin-bottom: 1.5em; }
 </style>
 </head>
 
@@ -14,30 +17,123 @@ pre { border: 1px dotted silver; padding: 1em; background-color: #f6f6f6;}
 
     <h1>cl-strings</h1>
 
+    <p>A java-mimicking string library for Common Lisp.</p>
+    
     <h2>abstract</h2>
 
+    <p>There's not really a need for a string convenience library for
+       Common Lisp, since so much of what you might want to do with
+       strings is available with the usual list or sequence functions
+       already provided.  What's not available with those is neatly
+       filled by Edi Weitz's CL-PPCRE.</p>
+
+    <p>Still, just for fun, here's a library mimicking the java String
+       class, with a little StringTokenizer thrown in for good
+       measure.</p>
+    
     <h2>contents</h2>
 
-    <div id="contents">
-    <dl>
-      <dt>string functions</dt>
-      <dd>
-	<ul>
-	  <li><a href="#string-char-at">string-char-at</a></li>
-	  <li><a href="#string-compare-to">string-compare-to</a></li>
-	</ul>
-      </dd>
-    </dl>
+    <div id="contents" style='margin-left: 1em;'>
+
+      <h3>String Functions</h3
+
+      <ul>
+	<li><a href="#string-bytes">string-bytes</a></li>
+	<li><a href="#string-char-at">string-char-at</a></li>
+	<li><a href="#string-compare-to">string-compare-to</a></li>
+	<li><a href="#string-concat">string-concat</a></li>
+	<li><a href="#string-contains">string-contains</a></li>
+	<li><a href="#string-content-equals">string-content-equals</a></li>
+	<li><a href="#string-copy">string-copy</a></li>
+	<li><a href="#string-equals">string-equals</a></li>
+	<li><a href="#string-format">string-format</a></li>
+	<li><a href="#string-index-of">string-index-of</a></li>
+	<li><a href="#string-last-index-of">string-last-index-of</a></li>
+	<li><a href="#string-length">string-length</a></li>
+	<li><a href="#string-matches">string-matches</a></li>
+	<li><a href="#string-replace-char">string-replace-char</a></li>
+	<li><a href="#string-replace-substring">string-replace-substring</a></li>
+	<li><a href="#string-replace-all">string-replace-all</a></li>
+	<li><a href="#string-replace-first">string-replace-first</a></li>
+	<li><a href="#string-region-matches">string-region-matches</a></li>
+	<li><a href="#string-split">string-split</a></li>
+	<li><a href="#string-starts-with">string-starts-with</a></li>
+	<li><a href="#string-subsequence">string-subsequence</a></li>
+	<li><a href="#string-substring">string-substring</a></li>
+	<li><a href="#string-to-char-list">string-to-char-list</a>+</li>
+	<li><a href="#string-to-lower">string-to-lower</a>+</li>
+	<li><a href="#string-to-upper">string-to-upper</a>+</li>
+	<li><a href="#string-to-symbol">string-to-symbol</a>+</li>
+	<li><a href="#string-strip">string-strip</a>+</li>
+	<li><a href="#string-value-of">string-value-of</a>+</li>
+      </ul>
 
     <h3>String Tokenizer</h3>
+    
     <ul>
       <li><a href="#string-make-tokenizer">string-make-tokenizer</a></li>
       <li><a href="#string-tokenizer-next">string-tokenizer-next</a></li>
       <li><a href="#string-tokenizer-count">string-tokenizer-count</a></li>
-      <li><a href="#string-tokenizer-peak">string-tokenizer-peak</a></li>
+      <li><a href="#string-tokenizer-peek">string-tokenizer-peek</a></li>
       <li><a href="#string-tokenizer-more-p">string-tokenizer-more-p</a></li>
       <li><a href="#string-tokenizer-reset">string-tokenizer-reset</a></li>
     </ul>
+
+    </div>
+    
+    <h2>String Functions</h2>
+
+    <a name="string-to-char-list"></a>
+
+    <p>[Function]<br/>
+    <b>string-to-char-list</b>
+    <i>string</i> =&gt; <i>list</i></p>
+
+    <blockquote>Returns a list of the characters making up STRING.</blockquote>
+
+    <a name="string-to-lower"></a>
+
+    <p>[Function]<br/> <b>string-to-lower</b> <i>string</i> =&gt;
+    <i>string</i>
+
+    <blockquote>Returns an lowercase copy of STRING.</blockquote>
+
+
+    <a name="string-to-upper"></a>
+
+    <p>[Function]<br/> <b>string-to-upper</b> <i>string</i> =&gt;
+    <i>string</i>
+
+    <blockquote>Returns an uppercase copy of STRING.</blockquote>
+
+    <a name="string-to-symbol"></a>
+
+    <p>[Function]<br/>
+    <b>string-to-symbol</b> <i>string</i> =&gt; <i>symbol</i></p>
+
+    <blockquote>
+    Returns an interned symbol named STRING.
+    </blockquote>
+
+    <a name="string-strip"></a>
+    <p>[Function]<br/>
+    <b>string-strip</b> <i>string</i> &amp;key (charbag
+    *whitespace-bag*) =&gt; <i>string</i></p>
+    
+    <blockquote>
+    Returns a string with whitespace (defined as CHARBAG) removed from
+    both ends of STRING.
+    </blockquote>
+    
+    <a name="string-value-of"></a>
+    <p>[Function]<br/>
+    <b>string-value-of</b> <i>object</i> &amp;key (lowercase nil)
+    =&gt; <i>string</i></p>
+
+    <blockquote>
+    Returns the string representation of OBJECT, optionally forcing it
+    to LOWERCASE.
+    </blockquote>
     
     </div>
 
@@ -120,9 +216,9 @@ CL></pre>
     Returns <code>t</code> if there are more tokens available, <code>nil</code> if not.
     </blockquote>
 
-    <a name="string-tokenizer-peak"></a>
+    <a name="string-tokenizer-peek"></a>
 
-    <p>[Method] <br/> <b>string-tokenizer-peak</b> <i>instance</i> =&gt; <i>token</i></p>
+    <p>[Method] <br/> <b>string-tokenizer-peek</b> <i>instance</i> =&gt; <i>token</i></p>
 
     <blockquote>
     Returns the next token without advancing the token pointer.
@@ -135,5 +231,5 @@ CL></pre>
  
 <hr>
 <address></address>
-<!-- hhmts start --> Last modified: Fri Dec 22 17:37:40 PST 2006 <!-- hhmts end -->
+<!-- hhmts start --> Last modified: Fri Mar  9 22:20:44 PST 2007 <!-- hhmts end -->
 </body> </html>
