@@ -60,8 +60,8 @@ The cl-strings package depends on cl-ppcre.
 
 *`*`whitespace-regex`*`*
 
-  Used to determine what constitutes whitespace in the string-split and 
-  string-make-tokenizer functions. Defaults to \\S.
+  Used to determine what constitutes whitespace in the `string-split` and 
+  `string-make-tokenizer` functions. Defaults to \\S.
 
 *`*`whitespace-bag`*`*
 
@@ -75,6 +75,7 @@ The cl-strings package depends on cl-ppcre.
   Returns a list of bytes (unsigned-byte 8), each byte representing a character in the `string`.
 
 *string-char-at* _string index_ => _character_
+
   Returns the char value of the specified `index` in `string`.
 
 *string-compare-to* _string1 string2_ &key _(ignore-case nil)_ => _integer_
@@ -88,12 +89,12 @@ The cl-strings package depends on cl-ppcre.
 
 *string-contains* _string str-or-char-list_ => _boolean_
 
-  Returns true if str-or-char-list is contained in string, otherwise false.
+  Returns true if `str-or-char-list` is contained in `string`, otherwise false.
 
 
 *string-content-equals* _string char-list_ => _boolean_
 
-  Returns true if the char-list is equal to string.
+  Returns true if the `char-list` is equal to `string`.
 
 
 *string-copy* _str-or-char-list_ => _string_
@@ -103,7 +104,7 @@ The cl-strings package depends on cl-ppcre.
 
 *string-ends-with* _string sub-string_ => _boolean_
 
-  Returns true if string ends with substring.
+  Returns true if `string` ends with `substring`.
 
 *string-equals* _string1 string2_ &key _(ignore-case nil)_ => _boolean_
 
@@ -113,26 +114,26 @@ The cl-strings package depends on cl-ppcre.
 
 *string-format* _format_ &rest _arguments_ => _string_
 
-  Returns a formatted string user the specificed format (cl printer) string applied to arguments.
+  Returns a formatted string using the specificed `format` (cl printer) string applied to `arguments`.
 
 *string-index-of* _string sub-str-or-char_ &optional _(from-index 0)_ => _integer_
 
-  Returns the index of the first occurrance of sub-str-or-char in string, starting at from-index.
+  Returns the index of the first occurrance of `sub-str-or-char` in string, starting at `from-index`.
 
 
 *string-last-index-of* _string sub-str-or-char_ &optional _from-index_ => _integer_
 
-  Returns the index of the last occurance of sub-str-or-char in string, optionally starting at from-index.
+  Returns the index of the last occurance of `sub-str-or-char` in `string`, optionally starting at `from-index`.
 
 
 *string-length* _string_ => _integer_
 
-  Returns the length of string.
+  Returns the length of `string`.
 
 
 *string-matches* _string regex_ => _boolean_
 
-  Returns true if string matches the regular expression regex.
+  Returns true if `string` matches the regular expression `regex`.
 
 *string-region-matches* _string1 string1-offset string1-len string2 string2-offset string2-len_ &key _ignore-case_ => _boolean_
 
@@ -140,60 +141,60 @@ The cl-strings package depends on cl-ppcre.
 
 *string-replace-all* _string regex replacement_ => _string_
 
-  Returns a copy of string with all occurances of the substring matching 
-  regex in string replaced by the string 
-  replacement.
+  Returns a copy of `string` with all occurances of substrings matching 
+  `regex` in `string` replaced by the string 
+  `replacement`.
 
 *string-replace-char* _string old-char new-char_ => _string_
 
-  Returns a new string with all occurances of old-char replaced by new-char.
+  Returns a new `string` with all occurances of `old-char` replaced by `new-char`.
 
 *string-replace-first* _string regex replacement_ => _string_
 
-  Returns a copy of string in which the first substring matching regex is replaced by replacement.
+  Returns a copy of `string` in which the first substring matching `regex` is replaced by `replacemen`t.
 
 *string-replace-subtstring* _string old-charlist new-charlist_ => _string_
 
-  Returns a new string with all occurances of old-charlist replaced by 
-  new-charlist. A char list is a list of character 
+  Returns a new `string` with all occurances of `old-charlist` replaced by 
+  `new-charlist`. A char list is a list of character 
   objects.
 
 *string-split* _string regex_ &key _limit omit-empty_ => _list_
 
-  Returns a list of strings split from string based on the regex stopping 
-  after limit times is limit is non-zero, and 
-  removing empty strings if omit-empty is t.
+  Returns a list of strings split from `string` based on the `regex` stopping 
+  after `limit` times if `limit` is non-zero, and 
+  removing empty strings if `omit-empty` is t.
 
 
 *string-starts-with* _string token_ &optional _(offset 0)_ => _boolean_
 
-  Tests (returns t/nil) if STRING begins with TOKEN optionally beginning at the OFFSET index into STRING.
+  Returns true if _string_ begins with _token_ optionally starting the comparison at the _offset_ into the `string`.
 
 *string-subsequence* _string begin-index end-index_ => _list_
 
-  Returns the list of characters found in STRING from 
-  BEGIN-INDEX to END-INDEX.
+  Returns the list of characters found in `string` from 
+  `begin-index` to `end-index`.
 
 *string-substring* _string begin-index_ &optional _end-index_ => _string_
 
-  Returns a new string representing the characters in STRING from 
-  position BEGIN-INDEX to the end of STRING, or to 
-  the position indicated by END-INDEX if provided.
+  Returns a new string representing the characters in `string` from 
+  position `begin-index` to the end of `string`, or to 
+  the position indicated by `end-index` if provided.
 
 
 *string-to-char-list* _string_ => _list_
 
-  Returns a list of the characters making up STRING.
+  Returns a list of the characters making up `string`.
 
 
 *string-to-lower* _string_ => _string_
 
-  Returns an lowercase copy of STRING.
+  Returns an lowercase copy of `string`.
 
 
 *string-to-upper* _string_ => _string_
 
-  Returns an uppercase copy of STRING.
+  Returns an uppercase copy of `string`.
 
 *string-to-symbol* _string_ ⇒ _symbol_
 
@@ -268,7 +269,6 @@ CL>
 *string-tokenizer-peek* _instance_ => _token_
 
   Returns the next token without advancing the token pointer.
-
 
 
 
