@@ -10,7 +10,7 @@ There's not really a need for a string convenience library for Common Lisp, sinc
 
 Still, just for fun, here's a library mimicking the java String class, with a little StringTokenizer thrown in for good measure.
 
-= Symbols =
+== Symbols ==
 
   * `*`whitespace-regex`*`
   * `*`whitespace-bag`*`
@@ -58,87 +58,163 @@ The cl-strings package depends on cl-ppcre.
 
 == Special Variables ==
 
-`[`Special variable`]`
-  `*`whitespace-regex`*`
+*`*`whitespace-regex`*`*
 
-Used to determine what constitutes whitespace in the string-split and string-make-tokenizer functions. Defaults to \\S.
+  Used to determine what constitutes whitespace in the string-split and 
+  string-make-tokenizer functions. Defaults to \\S.
 
-`[`Special variable`]` 
-`*`whitespace-bag`*`
+*`*`whitespace-bag`*`*
 
-Contains the white space characters used in trim operations. Defaults to #\Newline #\Space #\Return #\Tab.
+ Contains the white space characters used in trim operations. 
+ Defaults to #\Newline #\Space #\Return #\Tab.
 
 == String Functions ==
 
-`[`Function`]`
- string-bytes string => list
+*string-bytes* _string_ ⇒ _list_
 
-Returns a list of bytes (unsigned-byte 8), each byte representing a character in the string.
+  Returns a list of bytes (unsigned-byte 8), each byte representing a character in the string.
 
-[Function]  string-char-at string index ⇒ character
-Returns the char value of the specified index in string.
-[Function]  string-compare-to string1 string2 &key (ignore-case nil) ⇒ integer
-Compares to strings lexicographically, returning:
-	•	-1 if string1 precedes string2
-	•	 0 if string1 and string2 are equal
-	•	 1 if string1 follows string2
-[Function] string-concat string &rest strings ⇒ string
+*string-char-at* _string index_ ⇒ _character_
+  Returns the char value of the specified index in string.
+
+*string-compare-to* _string1 string2_ &key _(ignore-case nil)_ ⇒ _integer_
+  Compares to strings lexicographically, returning:
+
+    * -1 if string1 precedes string2
+    * 0 if string1 and string2 are equal
+    * 1 if string1 follows string2
+ *string-concat* _string_ &rest _strings_ ⇒ _string_
 Returns a string which is the concatenation of any number of strings to the end of the first string.
-[Function]  string-contains string str-or-char-list ⇒ boolean
+
+string-contains string str-or-char-list ⇒ boolean
 Returns true if str-or-char-list is contained in string, otherwise false.
-[Function]  string-content-equals string char-list ⇒ boolean
+
+[Function]  
+string-content-equals string char-list ⇒ boolean
 Returns true if the char-list is equal to string.
-[Function]  string-copy str-or-char-list ⇒ string
+
+[Function]  
+string-copy str-or-char-list ⇒ string
+
 Returns a string representation of str-or-char-list.
-[Function]  string-ends-with string sub-string ⇒ boolean
+
+[Function]  
+string-ends-with string sub-string ⇒ boolean
+
 Returns true if string ends with substring.
-[Function]  string-equals string1 string2 &key (ignore-case nil) ⇒ boolean
-Returns true if string1 has the same set of characters as string2, otherwise returns false. Will ignore case if ignore-case is t.
-[Function]  string-format format &rest arguments ⇒ string
+
+[Function]  
+string-equals string1 string2 &key (ignore-case nil) ⇒ boolean
+
+Returns true if string1 has the same set of characters as string2, otherwise returns false. Will ignore case if ignore-
+case is t.
+
+[Function]  
+string-format format &rest arguments ⇒ string
+
 Returns a formatted string user the specificed format (cl printer) string applied to arguments.
-[Function]  string-index-of string sub-str-or-char &optional (from-index 0) ⇒ integer
+
+[Function]  
+string-index-of string sub-str-or-char &optional (from-index 0) ⇒ integer
+
 Returns the index of the first occurrance of sub-str-or-char in string, starting at from-index.
-[Function]  string-last-index-of string sub-str-or-char &optional from-index
+
+[Function]  
+string-last-index-of string sub-str-or-char &optional from-index
+
 Returns the index of the last occurance of sub-str-or-char in string, optionally starting at from-index.
-[Function]  string-length string ⇒ integer
+
+[Function]  
+string-length string ⇒ integer
+
 Returns the length of string.
-[Function]  string-matches string regex ⇒ boolean
+
+[Function]  
+string-matches string regex ⇒ boolean
+
 Returns true if string matches the regular expression regex.
-[Function]  string-region-matches string1 string1-offset string1-len string2 string2-offset string2-len &key ignore-case ⇒ boolean
+
+[Function]  
+string-region-matches string1 string1-offset string1-len string2 string2-offset string2-len &key ignore-case ⇒ 
+boolean
+
 Returns true if two string regions are equal, ignoring case if ignore-case is t.
-[Function] string-replace-all string regex replacement ⇒ string
-Returns a copy of string with all occurances of the substring matching regex in string replaced by the string replacement.
-[Function] string-replace-char string old-char new-char ⇒ string
+
+[Function] 
+string-replace-all string regex replacement ⇒ string
+
+Returns a copy of string with all occurances of the substring matching regex in string replaced by the string 
+replacement.
+
+[Function] 
+string-replace-char string old-char new-char ⇒ string
+
 Returns a new string with all occurances of old-char replaced by new-char.
-[Function] string-replace-first string regex replacemen ⇒ string
+
+[Function] 
+string-replace-first string regex replacemen ⇒ string
+
 Returns a copy of string in which the first substring matching regex is replaced by replacement.
-[Function] string-replace-subtstringstring old-charlist new-charlist ⇒ string
-Returns a new string with all occurances of old-charlist replaced by new-charlist. A char list is a list of character objects.
-[Function]  string-split string regex &key limit omit-empty => list
-Returns a list of strings split from string based on the regex stopping after limit times is limit is non-zero, and removing empty strings if omit-empty is t.
-[Function]  string-starts-with string token &optional (offset 0) => t/nil
+
+[Function] 
+string-replace-subtstringstring old-charlist new-charlist ⇒ string
+
+Returns a new string with all occurances of old-charlist replaced by new-charlist. A char list is a list of character 
+objects.
+
+[Function]  
+string-split string regex &key limit omit-empty => list
+
+Returns a list of strings split from string based on the regex stopping after limit times is limit is non-zero, and 
+removing empty strings if omit-empty is t.
+
+[Function]  
+string-starts-with string token &optional (offset 0) => t/nil
+
 Tests (returns t/nil) if STRING begins with TOKEN optionally beginning at the OFFSET index into STRING.
-[Function]  string-subsequence string begin-index end-index => list
+
+[Function]  
+string-subsequence string begin-index end-index => list
+
 Returns the list of characters found in STRING from BEGIN-INDEX to END-INDEX.
-[Function]  string-substring string begin-index &optional end-index => string
-Returns a new string representing the characters in STRING from position BEGIN-INDEX to the end of STRING, or to the position indicated by END-INDEX if provided.
-[Function] string-to-char-list string => list
+
+[Function]  
+string-substring string begin-index &optional end-index => string
+
+Returns a new string representing the characters in STRING from position BEGIN-INDEX to the end of STRING, or to 
+the position indicated by END-INDEX if provided.
+[Function] 
+string-to-char-list string => list
+
 Returns a list of the characters making up STRING.
-[Function] string-to-lower string => string
+
+[Function] 
+string-to-lower string => string
+
 Returns an lowercase copy of STRING.
-[Function] string-to-upper string => string
+
+[Function] 
+string-to-upper string => string
+
 Returns an uppercase copy of STRING.
-[Function] string-to-symbol string => symbol
+
+[Function] 
+string-to-symbol string => symbol
+
 Returns an interned symbol named STRING.
+
 [Function] string-strip string &key (charbag *whitespace-bag*) => string
 Returns a string with whitespace (defined as CHARBAG) removed from both ends of STRING.
 [Function] string-value-of object &key (lowercase nil) => string
 Returns the string representation of object, optionally forcing it to lowercase.
-String Tokenizer
-[Function]  string-make-tokenizer string &key delimiter => instance
-Returns a string-tokenizer object for use with string-tokenizer-* methods.
 
-Example:
+==String Tokenizer==
+
+*string-make-tokenizer* _string_ &key _delimiter_ => _instance_
+
+   Returns a string-tokenizer object for use with string-tokenizer-* methods.
+
+*Example:*
 
 {{{
 CL> (defparameter *tokens* (string-make-tokenizer "one two three four"))
@@ -148,7 +224,7 @@ CL> (string-tokenizer-count *tokens*)
 4
 }}}
 
-Example:
+*Example:*
 
 {{{
 CL> (defun list-tokens (string &key (delimiter *whitespace-regex*))
@@ -177,17 +253,30 @@ five
 CL>
 }}}
 
-[Method]  string-tokenizer-count instance => count
-Returns the number of tokens in the string-tokenizer instance.
-[Method]  string-tokenizer-next instance => token
-Returns the next token, advancing the token pointer, or nil if there are no more tokens.
-[Method]  string-tokenizer-more-p instance => token
-Returns t if there are more tokens available, nil if not.
-[Method]  string-tokenizer-peek instance => token
-Returns the next token without advancing the token pointer.
+
+*string-tokenizer-count* _instance_ ⇒ _count_
+
+  Returns the number of tokens in the string-tokenizer instance.
+
+*string-tokenizer-next* _instance_ ⇒ _token_
+
+  Returns the next token, advancing the token pointer, or nil if there are no more tokens.
+
+*string-tokenizer-more-p* _instance_ => _token_
+
+  Returns t if there are more tokens available, nil if not.
+
+*string-tokenizer-peek* _instance_ ⇒ _token_
+
+  Returns the next token without advancing the token pointer.
 
 
-Last modified: Sat Mar 10 00:02:04 PST 2007
+
+
+
+
+
+
 
 
 
