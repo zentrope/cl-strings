@@ -1,4 +1,4 @@
-;; -*- mode: lisp; syntax: common-lisp; -*- 
+;; -*- mode: lisp; -*- 
 
 (defpackage :cl-strings 
   (:nicknames :strings 
@@ -8,6 +8,7 @@
         :cl-user)
   (:export *whitespace-regex*
            *whitespace-bag*
+	   :string-bytes
            :string-char-at
            :string-compare-to
            :string-concat
@@ -287,7 +288,7 @@ forcing it to LOWERCASE."
 (defgeneric string-tokenizer-next (tokenizer)
   (:documentation "Returns next token, advancing the token pointer."))
 
-(defgeneric string-tokenizer-peak (tokenizer)
+(defgeneric string-tokenizer-peek (tokenizer)
   (:documentation "Return the next token without advancing the token pointer."))
 
 (defgeneric string-tokenizer-reset (tokenizer)
@@ -329,7 +330,7 @@ forcing it to LOWERCASE."
         (incf position)
         result)))
 
-(defmethod string-tokenizer-peak ((self string-tokenizer))
+(defmethod string-tokenizer-peek ((self string-tokenizer))
   (nth (position-of self) (tokens-of self)))
 
 (defmethod string-tokenizer-more-p ((self string-tokenizer))
