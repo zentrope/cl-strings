@@ -6,7 +6,7 @@ A java-api mimicking string library for Common Lisp.
 
 == Abstract ==
 
-There's not really a need for a string convenience library for Common Lisp, since so much of what you might want to do with strings is available with the usual list or sequence functions already provided. What's not available with those is neatly filled by Edi Weitz's CL-PPCRE.
+There's not really a need for a string convenience library for Common Lisp, since so much of what you might want to do with strings is available with the usual list or sequence functions already provided. What's not available with those is neatly filled by Edi Weitz's [http://www.cliki.net/CL-PPCRE CL-PPCRE].
 
 Still, just for fun, here's a library mimicking the java String class, with a little !StringTokenizer thrown in for good measure.
 
@@ -54,7 +54,7 @@ Still, just for fun, here's a library mimicking the java String class, with a li
 
 == Dependencies ==
 
-The cl-strings package depends on cl-ppcre.
+The cl-strings package depends on [http://www.cliki.net/CL-PPCRE CL-PPCRE].
 
 == Special Variables ==
 
