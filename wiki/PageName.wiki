@@ -12,45 +12,45 @@ Still, just for fun, here's a library mimicking the java String class, with a li
 
 = Symbols =
 
-* *whitespace-regex*
-* *whitespace-bag*
+  * `*`whitespace-regex`*`
+  * `*`whitespace-bag`*`
 
-* string-bytes
-* string-char-at
-* string-compare-to
-* string-concat
-* string-contains
-* string-content-equals
-* string-copy
-* string-ends-with
-* string-equals
-* string-format
-* string-index-of
-* string-last-index-of
-* string-length
-* string-matches
-* string-region-matches
-* string-replace-all
-* string-replace-char
-* string-replace-first
-* string-replace-substring
-* string-split
-* string-starts-with
-* string-subsequence
-* string-substring
-* string-to-char-list
-* string-to-lower
-* string-to-upper
-* string-to-symbol
-* string-strip
-* string-value-of
+  * string-bytes
+  * string-char-at
+  * string-compare-to
+  * string-concat
+  * string-contains
+  * string-content-equals
+  * string-copy
+  * string-ends-with
+  * string-equals
+  * string-format
+  * string-index-of
+  * string-last-index-of
+  * string-length
+  * string-matches
+  * string-region-matches
+  * string-replace-all
+  * string-replace-char
+  * string-replace-first
+  * string-replace-substring
+  * string-split
+  * string-starts-with
+  * string-subsequence
+  * string-substring
+  * string-to-char-list
+  * string-to-lower
+  * string-to-upper
+  * string-to-symbol
+  * string-strip
+  * string-value-of
 
-* string-make-tokenizer
-* string-tokenizer-next
-* string-tokenizer-count
-* string-tokenizer-peek
-* string-tokenizer-more-p
-* string-tokenizer-reset
+  * string-make-tokenizer
+  * string-tokenizer-next
+  * string-tokenizer-count
+  * string-tokenizer-peek
+  * string-tokenizer-more-p
+  * string-tokenizer-reset
 
 == Dependencies ==
 
@@ -58,16 +58,23 @@ The cl-strings package depends on cl-ppcre.
 
 == Special Variables ==
 
-[Special variable]  *whitespace-regex*
+`[`Special variable`]`
+  `*`whitespace-regex`*`
+
 Used to determine what constitutes whitespace in the string-split and string-make-tokenizer functions. Defaults to \\S.
 
-[Special variable]  *whitespace-bag*
+`[`Special variable`]` 
+`*`whitespace-bag`*`
+
 Contains the white space characters used in trim operations. Defaults to #\Newline #\Space #\Return #\Tab.
 
 == String Functions ==
 
-[Function]  string-bytes string ⇒ list
+`[`Function`]`
+ string-bytes string => list
+
 Returns a list of bytes (unsigned-byte 8), each byte representing a character in the string.
+
 [Function]  string-char-at string index ⇒ character
 Returns the char value of the specified index in string.
 [Function]  string-compare-to string1 string2 &key (ignore-case nil) ⇒ integer
@@ -181,5 +188,8 @@ Returns the next token without advancing the token pointer.
 
 
 Last modified: Sat Mar 10 00:02:04 PST 2007
+
+
+
 
 
