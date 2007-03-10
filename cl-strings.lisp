@@ -53,6 +53,11 @@
 (defmacro booleanize (expr)
   `(if ,expr t nil))
 
+(defun string-bytes (string)
+  "Returns a list of bytes (unsigned-byte 8), each byte
+representing a character in the STRING."
+  (sb-ext:string-to-octets string))
+
 (defun string-char-at (string index)
   "Returns the char value of the specified INDEX in STRING."
   (declare (type string string)
@@ -144,9 +149,6 @@
 string applied to ARGUMENTS."
   (apply #'format nil format arguments))
 
-(defun string-bytes (string)
-  (sb-ext:string-to-octets string))
-
 (defun string-index-of (string sub-str-or-char &optional (from-index 0))
   "Returns the index of the first occurrance of SUB-STR-OR-CHAR 
 in STRING, optionally starting at FROM-INDEX."
@@ -179,6 +181,7 @@ in STRING, optionally starting at FROM-INDEX."
     (string-equals sub1 sub2 :ignore-case ignore-case)))
 
 (defun string-replace-char (string old-char new-char)
+  "Replaces all occurances of OLD-CHAR in STRING with NEW-CHAR."
   (declare (type string string)
            (type character old-char new-char))
   (let ((result (loop :for c :across string :if (char= c old-char)
@@ -186,6 +189,8 @@ in STRING, optionally starting at FROM-INDEX."
     (coerce result 'string)))
 
 (defun string-replace-substring (string old-charlist new-charlist)
+  "Returns a new string with all occurances of OLD-CHARLIST
+replaced by NEW-CHARLIST."
   (declare (type string string)
            (type list old-charlist new-charlist))
   (let ((old-str (coerce old-charlist 'string))
@@ -193,17 +198,21 @@ in STRING, optionally starting at FROM-INDEX."
   (string-replace-all string old-str new-str)))
 
 (defun string-replace-all (string regex replacement)
+  "Returns a new string with all occurances of the substring
+matching REGEX in STRING replaced by the string REPLACEMENT."
   (declare (type string string regex replacement))
   (cl-ppcre:regex-replace-all regex string replacement))
 
 (defun string-replace-first (string regex replacement)
+  "Returns a copy of STRING in which the first substring matching
+REGEX is replaced by REPLACEMENT."
   (declare (type string string regex replacement))
   (cl-ppcre:regex-replace regex string replacement))
 
 (defun string-split (string regex &key limit omit-empty)
   "Returns a list of strings split on STRING based on the REGEX
 optionally stopping after LIMIT times, and optional removing empty
-strings of OMIT-EMTPY."
+strings if OMIT-EMTPY."
   (declare (ignorable string regex limit))
   (flet ((empty (x)
            (zerop (length x))))
