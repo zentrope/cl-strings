@@ -168,7 +168,7 @@ The cl-strings package depends on cl-ppcre.
 
 *string-starts-with* _string token_ &optional _(offset 0)_ => _boolean_
 
-  Returns true if _string_ begins with _token_ optionally starting the comparison at the _offset_ into the `string`.
+  Returns true if `string` begins with `token` optionally starting the comparison at the `offset` into the `string`.
 
 *string-subsequence* _string begin-index end-index_ => _list_
 
@@ -200,7 +200,7 @@ The cl-strings package depends on cl-ppcre.
 
   Returns an interned symbol named `string`.
 
-*string-strip* _string_ &key _(charbag *whitespace-bag*)_ => _string_
+*string-strip* _string_ &key _(charbag `*`whitespace-bag`*`)_ => _string_
 
   Returns a copy of `string` with whitespace (defined as `charbag`) removed from both ends.
 
@@ -269,7 +269,6 @@ CL>
 *string-tokenizer-peek* _instance_ => _token_
 
   Returns the next token without advancing the token pointer.
-
 
 
 
