@@ -1,0 +1,581 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+<title>cl-strings</title>
+<style>
+a { color: #369; text-decoration: none; }
+a:hover { color: orange; text-decoration: underline; }
+body { font-size: 90%; margin: 0; background-color: #e6e6e6; padding: 1em; }
+pre {border: 1px dotted #009; padding: 1em; background-color:
+lightyellow;}
+code { color: darkred; font-family: sans-serif; }
+i { color: darkgreen; }
+blockquote { margin-bottom: 1.5em; margin-left: 1em }
+div#content { background-color: white; width: 80%; margin: auto; border: 1px solid silver;
+padding: 1em;}
+
+</style>
+</head>
+
+<body>
+
+<div id="container">
+  <div id="content">
+
+    <h1>cl-strings</h1>
+
+    <p>A java-api mimicking string library for Common Lisp.</p>
+    
+    <h2>Abstract</h2>
+
+    <p>There's not really a need for a string convenience library for
+       Common Lisp, since so much of what you might want to do with
+       strings is available with the usual list or sequence functions
+       already provided.  What's not available with those is neatly
+       filled by Edi Weitz's CL-PPCRE.</p>
+
+    <p>Still, just for fun, here's a library mimicking the java String
+       class, with a little StringTokenizer thrown in for good
+       measure.</p>
+    
+    <h2>Contents</h2>
+
+    <div id="contents" style='margin-left: 1em;'>
+
+      <h3><a href="#project-home">Project Home</a></h3>
+      
+      <h3><a href="#dependencies">Dependencies</a></h3>
+      
+      <h3><a href="#special-variables">Special Variables</a></h3>
+
+      <ul>
+	<li><a href="#whitespace-regex">*whitespace-regex*</a></li>
+	<li><a href="#whitespace-bag">*whitespace-bag*</a></li>
+      </ul>
+      
+      <h3><a href="#string-functions">String Functions</a></h3
+
+      <ul>
+	<li><a href="#string-bytes">string-bytes</a></li>
+	<li><a href="#string-char-at">string-char-at</a></li>
+	<li><a href="#string-compare-to">string-compare-to</a></li>
+	<li><a href="#string-concat">string-concat</a></li>
+	<li><a href="#string-contains">string-contains</a></li>
+	<li><a href="#string-content-equals">string-content-equals</a></li>
+	<li><a href="#string-copy">string-copy</a></li>
+	<li><a href="#string-ends-with">string-ends-with</a></li>
+	<li><a href="#string-equals">string-equals</a></li>
+	<li><a href="#string-format">string-format</a></li>
+	<li><a href="#string-index-of">string-index-of</a></li>
+	<li><a href="#string-last-index-of">string-last-index-of</a></li>
+	<li><a href="#string-length">string-length</a></li>
+	<li><a href="#string-matches">string-matches</a></li>
+	<li><a href="#string-region-matches">string-region-matches</a></li>
+	<li><a href="#string-replace-all">string-replace-all</a></li>
+	<li><a href="#string-replace-char">string-replace-char</a></li>
+	<li><a href="#string-replace-first">string-replace-first</a></li>
+	<li><a href="#string-replace-substring">string-replace-substring</a></li>
+	<li><a href="#string-split">string-split</a></li>
+	<li><a href="#string-starts-with">string-starts-with</a></li>
+	<li><a href="#string-subsequence">string-subsequence</a></li>
+	<li><a href="#string-substring">string-substring</a></li>
+	<li><a href="#string-to-char-list">string-to-char-list</a></li>
+	<li><a href="#string-to-lower">string-to-lower</a></li>
+	<li><a href="#string-to-upper">string-to-upper</a></li>
+	<li><a href="#string-to-symbol">string-to-symbol</a></li>
+	<li><a href="#string-strip">string-strip</a></li>
+	<li><a href="#string-value-of">string-value-of</a></li>
+      </ul>
+
+      <h3><a href="#string-tokenizer">String Tokenizer</a></h3>
+    
+      <ul>
+	<li><a href="#string-make-tokenizer">string-make-tokenizer</a></li>
+	<li><a href="#string-tokenizer-next">string-tokenizer-next</a></li>
+	<li><a href="#string-tokenizer-count">string-tokenizer-count</a></li>
+	<li><a href="#string-tokenizer-peek">string-tokenizer-peek</a></li>
+	<li><a href="#string-tokenizer-more-p">string-tokenizer-more-p</a></li>
+	<li><a href="#string-tokenizer-reset">string-tokenizer-reset</a></li>
+      </ul>
+
+    </div>
+
+
+    <a name="project-home"></a>
+
+    <h2>Project Home</h2>
+
+    <p>The code and supporting information, issue tracking, wiki, etc, for <code>cl-strings</code>
+    resides at:</p>
+
+    <ul>
+      <li><a
+      href="http://code.google.com/p/cl-strings/">http://code.google.com/p/cl-strings</a></li>
+    </ul>
+
+    <p>The latest asdf installable version can be found at:</p>
+
+    <ul>
+      <li><a
+      href="http://code.google.com/p/cl-strings/downloads/list">
+      http://code.google.com/p/cl-strings/downloads/list</a></li>
+    </ul>
+
+    
+    <a name="dependencies"></a>
+
+    <h2>Dependencies</h2>
+
+    <p>The <code>cl-strings</code> package depends on <a
+    href="http://www.cliki.net/CL-PPCRE">cl-ppcre</a>.</p>
+
+    <a name="special-variables"></a>
+    
+    <h2>Special Variables</h2>
+
+    <a name="whitespace-regex"></a>
+    
+    <p>[Special variable] <br/> <b>*whitespace-regex*</b></p>
+
+    <blockquote>Used to determine what constitutes whitespace in the
+    string-split and string-make-tokenizer functions. Defaults to
+    <code>\\S</code>.</blockquote>
+
+    <a name="whitespace-bag"></a>
+    
+    <p>[Special variable] <br/> <b>*whitespace-bag*</b></p>
+
+    <blockquote>Contains the white space characters used in trim
+    operations.  Defaults to <code>#\Newline #\Space #\Return
+    #\Tab</code>.</blockquote>
+
+
+    <a name="string-functions"></a>
+    
+    <h2>String Functions</h2>
+
+    <a name="string-bytes"></a>
+
+    <p>[Function] <br/> <b>string-bytes</b> <i>string</i> &rArr;
+    <i>list</i></p>
+
+    <blockquote>Returns a list of bytes (unsigned-byte 8), each byte
+    representing a character in the <code>string</code>.</blockquote>
+
+    <!-- -->
+
+    <a name="string-char-at"></a>
+    
+    <p>[Function] <br/>
+    <b>string-char-at</b>
+    <i>string index</i> &rArr;
+    <i>character</i></p>
+
+    <blockquote>
+    Returns the char value of the specified <code>index</code> in
+    <code>string</code>.
+    </blockquote>
+
+    <!-- -->
+
+    <a name="string-compare-to"></a>
+    
+    <p>[Function] <br/>
+    <b>string-compare-to</b>
+    <i>string1 string2</i>
+    &amp;key <i>(ignore-case nil)</i>
+    &rArr; <i>integer</i></p>
+
+    <blockquote>
+    Compares to strings lexicographically, returning:
+    <ul style="list-style-type: none; padding-left: 1em">
+      <li><code>-1</code> if <code>string1</code> precedes
+      <code>string2</code></li>
+    
+      <li><code>&nbsp;0</code> if <code>string1</code> and
+      <code>string2</code> are equal</li>
+
+      <li><code>&nbsp;1</code> if <code>string1</code> follows
+      <code>string2</code></li>
+
+    </ul>
+    </blockquote>
+
+    <!-- -->
+
+    <a name="string-concat"></a>
+
+    <p>
+    [Function]<br/>
+    <b>string-concat</b>
+    <i>string</i> &amp;rest <i>strings</i>
+    &rArr; <i>string</i>
+    </p>
+
+    <blockquote>Returns a string which is the concatenation of any
+    number of <code>strings</code> to the end of the first
+    <code>string</code>.</blockquote>
+
+    <!-- -->
+
+    <a name="string-contains"></a>
+
+    <p>
+    [Function] <br/>
+    <b>string-contains</b> <i>string str-or-char-list</i> &rArr; <i>boolean</i></p>
+
+    <blockquote>Returns true if <code>str-or-char-list</code> is
+    contained in <code>string</code>, otherwise false.</blockquote>
+
+    <!-- -->
+
+    <a name="string-content-equals"></a>
+    
+    <p>[Function] <br/>
+    <b>string-content-equals</b> <i>string char-list</i> &rArr;
+    <i>boolean</i></p>
+
+    <blockquote>
+    Returns true if the <code>char-list</code> is equal to
+    <code>string</code>.
+    </blockquote>
+
+    <!-- -->
+
+    <a name="string-copy"></a>
+
+    <p>[Function] <br/>
+    <b>string-copy</b> <i>str-or-char-list</i> &rArr;
+    <i>string</i></p>
+
+    <blockquote>Returns a string representation of
+    <code>str-or-char-list</code>.</blockquote>
+
+    <!-- -->
+
+    <a name="string-ends-with"></a>
+
+    <p>[Function] <br/>
+    <b>string-ends-with</b> <i>string sub-string</i>
+    &rArr; <i>boolean</i></p>
+
+    <blockquote>Returns true if <code>string</code> ends with
+    <code>substring</code>.</blockquote>
+
+    <!-- -->
+
+    <a name="string-equals"></a>
+
+    <p>[Function] <br/>
+    <b>string-equals</b> <i>string1 string2</i> &amp;key
+    <i>(ignore-case nil)</i> &rArr; <i>boolean</i></p>
+
+    <blockquote> Returns true if <code>string1</code> has the same set
+    of characters as <code>string2</code>, otherwise returns false.
+    Will ignore case if <code>ignore-case</code> is t.  </blockquote>
+
+    <!-- -->
+
+    <a name="string-format"></a>
+
+    <p>[Function] <br/> <b>string-format</b> <i>format</i> &amp;rest
+    <i>arguments</i> &rArr; <i>string</i></p>
+
+    <blockquote>
+Returns a formatted string user the specificed
+<code>format</code> (cl printer) string applied to
+<code>arguments</code>.</blockquote>
+
+    <!-- -->
+
+    <a name="string-index-of"></a>
+
+    <p>[Function] <br/> <b>string-index-of</b> <i>string
+    sub-str-or-char</i> &amp;optional <i>(from-index 0)</i> &rArr;
+    <i>integer</i></p>
+
+<blockquote>Returns the index of the first occurrance of
+<code>sub-str-or-char</code> in <code>string</code>, 
+starting at <code>from-index</code>.</blockquote>
+
+    <!-- -->
+
+<a name="string-last-index-of"></a>
+
+<p>[Function] <br/>
+<b>string-last-index-of</b>
+<i>string sub-str-or-char</i> &amp;optional <i>from-index</i></p>
+
+<blockquote>Returns the index of the last occurance of
+<code>sub-str-or-char</code> in <code>string</code>, optionally
+starting at <code>from-index</code>.</blockquote>
+
+
+<a name="string-length"></a>
+
+<p>[Function] <br/> <b>string-length</b> <i>string</i> &rArr;
+<i>integer</i></p>
+
+<blockquote>Returns the length of <code>string</code>.</blockquote>
+
+<a name="string-matches"></a>
+
+<p>[Function] <br/> <b>string-matches</b> <i>string regex</i> &rArr;
+<i>boolean</i></p>
+
+<blockquote>Returns true if <code>string</code> matches the regular
+expression <code>regex</code>.</blockquote>
+
+<a name="string-region-matches"></a>
+
+<p>[Function] <br/>
+<b>string-region-matches</b>
+<i>string1 string1-offset string1-len string2 string2-offset
+string2-len</i>
+&amp;key <i>ignore-case</i> &rArr; <i>boolean</i></p>
+
+<blockquote>
+Returns true if two string regions are equal, ignoring case if
+<code>ignore-case</code> is t.
+</blockquote>
+
+
+<a name="string-replace-all"></a>
+
+<p>[Function]<br/>
+<b>string-replace-all</b> <i>string regex replacement</i> &rArr;
+<i>string</i></p>
+
+<blockquote> Returns a copy of <code>string</code> with all occurances of the substring
+matching <code>regex</code> in <code>string</code> replaced by the
+string <code>replacement</code>.
+</blockquote>
+
+<a name="string-replace-char"></a>
+
+<p>[Function]<br/>
+<b>string-replace-char</b>
+<i>string old-char new-char</i> &rArr; <i>string</i></p>
+
+<blockquote>
+Returns a new string with all occurances of <code>old-char</code>
+replaced by <code>new-char</code>.
+</blockquote>
+
+
+<a name="string-replace-first"></a>
+
+<p>[Function]<br/>
+<b>string-replace-first</b>
+<i>string regex replacemen</i> &rArr;
+<i>string</i></p>
+
+<blockquote>
+Returns a copy of <code>string</code> in which the first substring
+matching <code>regex</code> is replaced by <code>replacement</code>.
+</blockquote>
+
+<a name="string-replace-substring"></a>
+
+<p>[Function]<br/>
+<b>string-replace-subtstring</b <i>string old-charlist
+new-charlist</i> &rArr; <i>string</i></p>
+
+<blockquote>
+Returns a new string with all occurances of <code>old-charlist</code>
+replaced by <code>new-charlist</code>.  A char list is a list of
+character objects.
+</blockquote>
+
+
+    <!-- -->
+    
+    <a name="string-split"></a>
+
+    <p>[Function] <br/> <b>string-split</b> <i>string regex</i> &amp;key <i>limit
+    omit-empty</i> =&gt; list</p>
+
+    <blockquote>Returns a list of strings split from
+    <code>string</code> based on the <code>regex</code> stopping after
+    <code>limit</code> times is limit is non-zero, and removing empty
+    strings if <code>omit-empty</code> is <code>t</code>.</blockquote>
+    
+    
+    <a name="string-starts-with"></a>
+
+    <p>[Function] <br/> <b>string-starts-with</b> <i>string token</i>
+    &amp;optional (offset 0) =&gt; t/nil</p>
+
+    <blockquote>Tests (returns t/nil) if STRING begins with TOKEN
+    optionally beginning at the OFFSET index into STRING.</blockquote>
+    
+    <a name="string-subsequence"></a>
+
+    <p>[Function] <br/> <b>string-subsequence</b> <i>string
+    begin-index end-index</i> =&gt; list</p>
+
+    <blockquote>Returns the list of characters found in STRING from
+    BEGIN-INDEX to END-INDEX.</blockquote>
+
+    <a name="string-substring"></a>
+
+    <p>[Function] <br/> <b>string-substring</b> <i>string
+    begin-index</i> &amp;optional <i>end-index</i> =&gt;
+    <i>string</i></p>
+
+    <blockquote>Returns a new string representing the characters in
+    STRING from position BEGIN-INDEX to the end of STRING, or to the
+    position indicated by END-INDEX if provided.</blockquote>
+
+    <a name="string-to-char-list"></a>
+
+    <p>[Function]<br/>
+    <b>string-to-char-list</b>
+    <i>string</i> =&gt; <i>list</i></p>
+
+    <blockquote>Returns a list of the characters making up STRING.</blockquote>
+
+    <a name="string-to-lower"></a>
+
+    <p>[Function]<br/> <b>string-to-lower</b> <i>string</i> =&gt;
+    <i>string</i>
+
+    <blockquote>Returns an lowercase copy of STRING.</blockquote>
+
+
+    <a name="string-to-upper"></a>
+
+    <p>[Function]<br/> <b>string-to-upper</b> <i>string</i> =&gt;
+    <i>string</i>
+
+    <blockquote>Returns an uppercase copy of STRING.</blockquote>
+
+    <a name="string-to-symbol"></a>
+
+    <p>[Function]<br/>
+    <b>string-to-symbol</b> <i>string</i> =&gt; <i>symbol</i></p>
+
+    <blockquote>
+    Returns an interned symbol named STRING.
+    </blockquote>
+
+    <a name="string-strip"></a>
+    <p>[Function]<br/>
+    <b>string-strip</b> <i>string</i> &amp;key (charbag
+    *whitespace-bag*) =&gt; <i>string</i></p>
+    
+    <blockquote>
+    Returns a string with whitespace (defined as CHARBAG) removed from
+    both ends of STRING.
+    </blockquote>
+    
+    <a name="string-value-of"></a>
+    <p>[Function]<br/>
+    <b>string-value-of</b> <i>object</i> &amp;key (lowercase nil)
+    =&gt; <i>string</i></p>
+
+    <blockquote>
+    Returns the string representation of <code>object</code>, optionally forcing it
+    to <code>lowercase</code>.
+    </blockquote>
+    
+
+
+    <a name="string-tokenizer"></a>
+
+    <h2>String Tokenizer</h2>
+
+    <a name="string-make-tokenizer"></a>
+    
+    <p>[Function] <br/> <b>string-make-tokenizer</b> <i>string</i>
+    &amp;key <i>delimiter</i> =&gt; <i>instance</i></p>
+
+    <blockquote> Returns a <code>string-tokenizer</code> object for
+    use with <code>string-tokenizer-*</code> methods.  </blockquote>
+
+    <blockquote>
+    Example:<pre>
+CL> (defparameter *tokens* (string-make-tokenizer "one two three four"))
+*TOKENS*
+
+CL> (string-tokenizer-count *tokens*)
+4
+
+
+</pre>
+    </blockquote>
+    
+    <blockquote>
+    Example:
+    <pre>
+CL> (defun list-tokens (string &key (delimiter *whitespace-regex*))
+      (let ((tokens (string-make-tokenizer string :delimiter delimiter)))
+        (loop
+           while (string-tokenizer-more-p tokens)
+             do (format t "~a~%" (string-tokenizer-next tokens)))))
+
+CL&gt; (list-tokens "one two three four five")
+one
+two
+three
+four
+five
+
+CL> (list-tokens "one,two,three four,five")
+one,two,three
+four,five
+
+CL> (list-tokens "one,two,three four,five" :delimiter ",")
+one
+two
+three four
+five
+
+CL></pre>
+    </blockquote>
+
+    <!-- -->
+    
+    <a name="string-tokenizer-count"></a>
+
+    <p>[Method] <br/> <b>string-tokenizer-count</b> <i>instance</i> => <i>count</i></p>
+
+    <blockquote>
+    Returns the number of tokens in the <code>string-tokenizer</code> instance.
+    </blockquote>
+
+    <!-- -->
+
+    <p>[Method] <br/> <b>string-tokenizer-next</b> <i>instance</i> =&gt; token</p>
+
+    <blockquote>
+    Returns the next token, advancing the token pointer, or <code>nil</code> if there are no more tokens.
+    </blockquote>
+
+    <!-- -->
+
+    <p>[Method] <br/> <b>string-tokenizer-more-p</b> <i>instance</i> =&gt; token</p>
+
+    <blockquote>
+    Returns <code>t</code> if there are more tokens available, <code>nil</code> if not.
+    </blockquote>
+
+    <a name="string-tokenizer-peek"></a>
+
+    <p>[Method] <br/> <b>string-tokenizer-peek</b> <i>instance</i> =&gt; <i>token</i></p>
+
+    <blockquote>
+    Returns the next token without advancing the token pointer.
+    </blockquote>
+    
+<hr size='1' noshadow >
+<address></address>
+<!-- hhmts start --> Last modified: Sat Mar 10 00:02:04 PST 2007 <!-- -->
+<!--hhmts end -->
+
+  </div>
+ </div>
+
+ 
+
+</body> </html>
