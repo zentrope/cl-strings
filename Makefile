@@ -21,6 +21,9 @@ dist:
 	tar cvf $(tarchive) $(dist-dir)
 	gzip $(tarchive)
 
+test: clean
+	sbcl --noinform --disable-debugger --load run-tests.lisp --noprint
+
 #.PHONY: clean
 clean:
 	rm -rf $(detritus)

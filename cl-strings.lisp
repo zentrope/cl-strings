@@ -71,47 +71,20 @@ octets (unsigned-byte 8)."
            (type (integer 0 *) index))
   (aref string index))
 
+;; thanks to Zach Beane for this implementation.
 (defun string-compare-to (string1 string2 &key (ignore-case nil))
   "Compares two string lexicographicallay.
  -1 if string1 precedes string2
   0 if string1 and string2 are equal
   1 if string1 follows string2"
   (declare (type string string1 string2))
-
-  (labels ((empty (s)
-             (zerop (length s)))
-
-           (one-empty (s1 s2)
-             (and (empty s1)
-                  (not (empty s2))))
-
-           (both-empty (s1 s2)
-             (and (empty s1) (empty s2)))
-
-           (test-first (s1 s2 fn)
-             (let ((c1 (char-code (aref s1 0)))
-                   (c2 (char-code (aref s2 0))))
-               (funcall fn c1 c2)))
-
-           (compare-first-chars (s1 s2 fn)
-             (if ignore-case
-                 (test-first (string-downcase s1) (string-downcase s2) fn)
-                 (test-first s1 s2 fn))))
-
-    (cond 
-      ((one-empty string1 string2)
-       -1)
-      ((one-empty string2 string1)
-       1)
-      ((both-empty string1 string2)
-       0)
-      ((compare-first-chars string1 string2 #'<)
-       -1)
-      ((compare-first-chars string1 string2 #'>)
-       1)
-      (t
-       (string-compare-to (subseq string1 1)
-                          (subseq string2 1))))))
+  (if ignore-case
+      (cond ((string-equal string1 string2) 0)
+            ((string-greaterp string1 string2) 1)
+            (t -1))
+      (cond ((string= string1 string2) 0)
+            ((string> string1 string2) 1)
+            (t -1))))
 
 (defun string-concat (string &rest strings)
   "Concatenates any number of STRINGS to the end of the first STRING."
