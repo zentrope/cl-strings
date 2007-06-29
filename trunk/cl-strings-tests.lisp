@@ -51,6 +51,14 @@
 
 (clear-suite)
 
+(deftest test-string-bytes (t)
+  (string-equals (sb-ext:octets-to-string (string-bytes "abc"))
+                 "abc"))
+
+(deftest test-string-octets (t)
+  (string-equals (sb-ext:octets-to-string (string-octets "tests are fun"))
+                 "tests are fun"))
+
 (deftest test-string-char-at (#\s)
   (string-char-at "test" 2))
 
