@@ -1,9 +1,7 @@
 ;; -*- mode: lisp; -*- 
 
 (defpackage :cl-strings 
-  (:nicknames :strings 
-              :lel-strings 
-              :lisp-extended-library-strings)
+  (:nicknames :strings)
   (:use :cl
         :cl-user)
   (:export *whitespace-regex*
@@ -22,6 +20,7 @@
            :string-last-index-of
            :string-length
            :string-matches
+           :string-octets
            :string-replace-char
            :string-replace-substring
            :string-replace-all
@@ -53,10 +52,18 @@
 (defmacro booleanize (expr)
   `(if ,expr t nil))
 
+;; revised
 (defun string-bytes (string)
-  "Returns a list of bytes (unsigned-byte 8), each byte
-representing a character in the STRING."
+  "Returns a representation of STRING as a list of bytes 
+(unsigned-byte 8), otherwise known as octets."
   (sb-ext:string-to-octets string))
+
+;; new
+(defun string-octets (string)
+  "Returns a representation of STRING as an array of 
+octets (unsigned-byte 8)."
+  (sb-ext:string-to-octets string))
+
 
 (defun string-char-at (string index)
   "Returns the char value of the specified INDEX in STRING."
