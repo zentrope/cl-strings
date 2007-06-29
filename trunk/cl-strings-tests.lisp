@@ -18,7 +18,7 @@
 (defun run-tests ()
   (loop for (name test) in *test-suite*
        do (let ((result (funcall test)))
-            (format t "~a~%" (format-result name result)))))
+            (format *standard-output* "~a~%" (format-result name result)))))
 
 (defmacro symbolfy (str)
   `(intern (string-upcase ,str)))
@@ -67,6 +67,15 @@
 
 (deftest test-string-char-range-error (:err)
   (string-char-at "abc" 5))
+
+(deftest test-string-compare-to-eq (0)
+  (string-compare-to "a" "a"))
+
+(deftest test-string-compare-to-lt (-1)
+  (string-compare-to "a" "b"))
+
+(deftest test-string-compare-to-gt (1)
+  (string-compare-to "b" "a"))
 
 (deftest test-string-equal (t)
   (string-equals "foo" "foo"))
