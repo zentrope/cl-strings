@@ -65,6 +65,9 @@
 (deftest test-string-char-at-type-error (:err)
   (string-char-at 23 2))
 
+(deftest test-string-char-range-error (:err)
+  (string-char-at "abc" 5))
+
 (deftest test-string-equal (t)
   (string-equals "foo" "foo"))
 

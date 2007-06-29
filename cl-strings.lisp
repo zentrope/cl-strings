@@ -68,7 +68,7 @@ octets (unsigned-byte 8)."
 (defun string-char-at (string index)
   "Returns the char value of the specified INDEX in STRING."
   (declare (type string string)
-           (type integer index))
+           (type (integer 0 *) index))
   (aref string index))
 
 (defun string-compare-to (string1 string2 &key (ignore-case nil))
