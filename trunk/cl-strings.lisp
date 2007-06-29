@@ -52,18 +52,10 @@
 (defmacro booleanize (expr)
   `(if ,expr t nil))
 
-;; revised
 (defun string-bytes (string)
   "Returns a representation of STRING as a list of bytes 
 (unsigned-byte 8), otherwise known as octets."
   (sb-ext:string-to-octets string))
-
-;; new
-(defun string-octets (string)
-  "Returns a representation of STRING as an array of 
-octets (unsigned-byte 8)."
-  (sb-ext:string-to-octets string))
-
 
 (defun string-char-at (string index)
   "Returns the char value of the specified INDEX in STRING."
@@ -104,24 +96,25 @@ octets (unsigned-byte 8)."
   (let ((string2 (coerce char-list 'string)))
     (string= string string2)))
 
+;; implementation suggested by Zach Beane
 (defun string-copy (str-or-char-list)
   "Returns a string representation of STR-OR-CHAR-LIST."
-  (format nil "~a" (coerce str-or-char-list 'string)))
+  (if (listp str-or-char-list)
+      (coerce str-or-char-list 'string)
+      (copy-seq str-or-char-list)))
 
 (defun string-ends-with (string sub-string)
   "Tests if STRING ends with SUB-STRING."
   (declare (type string string sub-string))
-  (let ((sub-len (length sub-string))
-        (string-len (length string)))
-    (and (>= string-len sub-len)
-         (string= (subseq string (- string-len sub-len) string-len)
-                  sub-string))))
+  (let* ((len (length string))
+         (start1 (- len (length sub-string))))
+      (string= string sub-string :start1 start1 :end1 len)))
 
 (defun string-equals (string1 string2 &key (ignore-case nil))
   "Tests if STRING1 is equal to STRING2."
   (declare (type string string1 string2))
   (if ignore-case
-      (string= (string-downcase string1) (string-downcase string2))
+      (string-equal string1 string2)
       (string= string1 string2)))
 
 (defun string-format (format &rest arguments)
@@ -152,21 +145,25 @@ in STRING, optionally starting at FROM-INDEX."
   (declare (type string string regex))
   (booleanize (cl-ppcre:all-matches regex string)))
 
+(defun string-octets (string)
+  "Returns a representation of STRING as an array of 
+octets (unsigned-byte 8)."
+  (sb-ext:string-to-octets string))
+
 (defun string-region-matches (string1 string1-offset string1-len
                               string2 string2-offset string2-len
                               &key ignore-case)
   "Test if two string regions are equal, optionally ignoring case."
-  (let ((sub1 (string-substring string1 string1-offset string1-len))
-        (sub2 (string-substring string2 string2-offset string2-len)))
-    (string-equals sub1 sub2 :ignore-case ignore-case)))
+  (let ((test (if ignore-case #'string-equal #'string=)))
+    (funcall test string1 string2 
+             :start1 string1-offset :end1 (+ string1-offset string1-len)
+             :start2 string2-offset :end2 (+ string2-offset string2-len))))
 
 (defun string-replace-char (string old-char new-char)
   "Replaces all occurances of OLD-CHAR in STRING with NEW-CHAR."
   (declare (type string string)
            (type character old-char new-char))
-  (let ((result (loop :for c :across string :if (char= c old-char)
-                   :collect new-char :else :collect c)))
-    (coerce result 'string)))
+  (substitute new-char old-char string))
 
 (defun string-replace-substring (string old-charlist new-charlist)
   "Returns a new string with all occurances of OLD-CHARLIST
@@ -205,12 +202,7 @@ strings if OMIT-EMTPY."
   "Tests if STRING begins with TOKEN optionally beginning at
 OFFSET."
   (declare (type string string token))
-  (let ((source (subseq string offset)))
-    (let ((token-len (length token))
-          (source-len (length source)))
-      (and (>= source-len token-len)
-           (string= (subseq source 0 token-len)
-                    token)))))
+  (string= string token :start1 offset :end1 (+ offset (length token))))
 
 (defun string-subsequence (string begin-index end-index)
   "Returns the list of characters found in STRING from 
@@ -237,7 +229,7 @@ END-INDEX if provided."
 (defun string-to-char-list (string)
   "Returns a list of characters found in STRING."
   (declare (type string string))
-  (loop :for c :across string :collect c))
+  (coerce string 'list))
 
 (defun string-to-lower (string)
   "Returns a lowercase copy of STRING."
