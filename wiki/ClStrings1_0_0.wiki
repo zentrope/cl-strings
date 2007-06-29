@@ -138,7 +138,7 @@ string2, _0_ if string1 and string2 are equal, and _1_ if string1 follows string
 
 *string-octets* _string_ => _list_
 
-  "Returns a representation of STRING as an array of octets (unsigned-byte 8)."
+  Returns a representation of STRING as an array of octets (unsigned-byte 8)."
 
 *string-region-matches* _string1 string1-offset string1-len string2 string2-offset string2-len_ &key _ignore-case_ => _boolean_
 
