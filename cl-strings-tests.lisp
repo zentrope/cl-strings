@@ -28,10 +28,10 @@
       'PASSED
       'FAILED))
 
-(defun err-result (expected condition)
+(defun err-result (name expected condition)
   (if (eq expected :err)
       'passed
-      (format nil "ERROR :: ~a" condition)))
+      (format nil "ERROR : ~a : ~a" name condition)))
 
 (defun store-test (name test)
   (push (list name test) *test-suite*))
@@ -45,7 +45,7 @@
                            (let ((,actual-result ,@test-expr))
                              (test-result ,expected-result ,actual-result))
                          (condition (c)
-                           (err-result ,expected-result c))))))
+                           (err-result ',name ,expected-result c))))))
        (store-test ',name ,test-fn))))
 
 
@@ -77,6 +77,20 @@
 (deftest test-string-compare-to-gt (1)
   (string-compare-to "b" "a"))
 
+(deftest test-string-copy-eq (t)
+  (and (equal "abc" (string-copy "abc"))
+       (let ((a "abc"))
+         (not (eq a (string-copy a))))))
+
+(deftest test-string-copy-chars (t)
+  (equal "abc" (string-copy (list #\a #\b #\c))))
+
+(deftest test-string-ends-with-true (t)
+  (string-ends-with "this is a string" "string"))
+
+(deftest test-string-ends-with-false (nil)
+  (string-ends-with "this is a string" "strong"))
+
 (deftest test-string-equal (t)
   (string-equals "foo" "foo"))
 
@@ -92,3 +106,33 @@
 (deftest test-string-equal-type-error-right (:err)
   (string-equals 23 "foo"))
 
+(deftest test-string-replace-char (t)
+  (string= (string-replace-char "faa" #\a #\o) "foo"))
+
+(deftest test-string-to-char-list (t)
+  (let ((result (string-to-char-list "abc")))
+    (and (= 3 (length result))
+         (equal #\a (first result))
+         (equal #\b (second result))
+         (equal #\c (third result)))))
+
+(deftest test-string-starts-with-true (t)
+  (string-starts-with "string starts with" "string"))
+
+(deftest test-string-starts-with-false (nil)
+  (string-starts-with "string starts with" "strong"))
+
+(deftest test-string-starts-with-offset (t)
+  (string-starts-with "string starts with" "starts" 7))
+
+(deftest test-string-region-matches-true (t)
+  (string-region-matches "a bc d" 2 2 "a bc d" 2 2))
+
+(deftest test-string-region-matches-false (nil)
+  (string-region-matches "a bc d" 1 2 "a bc d" 2 2))
+
+(deftest test-string-region-matches-odd (t)
+  (string-region-matches "a d bc" 4 2 "a bc d" 2 2))
+
+(deftest test-string-region-matches-caseless (t)
+  (string-region-matches "ABCabc" 4 2 "abcABC" 4 2 :ignore-case t))
